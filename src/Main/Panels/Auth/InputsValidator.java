@@ -61,9 +61,11 @@ public class InputsValidator{
         if(Arrays.equals(passwordValue, passwordPlaceholder)) return false;
 
         if(passwordValue.length < MIN_PASSWORD_LENGTH || passwordValue.length > MAX_INPUT_LENGTH){
+
             if(passwordValue.length != 0){
                 customizeInputAfterValidation(passwordInput, INVALID_INPUT_COLOR);
             }
+            else customizeInputAfterValidation(passwordInput, VALID_INPUT_COLOR);
             return false;
         }
         customizeInputAfterValidation(passwordInput, VALID_INPUT_COLOR);
@@ -93,6 +95,8 @@ public class InputsValidator{
             if(passwordSecond.length != 0 ) {
                 customizeInputAfterValidation(repeatPasswordInput, INVALID_INPUT_COLOR);
             }
+            else customizeInputAfterValidation(repeatPasswordInput, VALID_INPUT_COLOR);
+
             return false;
         }
 

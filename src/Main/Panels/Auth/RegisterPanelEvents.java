@@ -2,9 +2,13 @@ package Main.Panels.Auth;
 
 import Main.Database.User;
 import Main.Frames.LoginFrame;
-import Main.Utilities.QueryExecutor;
+import Main.Utilities.requestExecutor;
 
 import javax.swing.*;
+import java.net.http.HttpResponse;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 //*Class created only to provide implementations for BtnHandlers on AuthPanel*/
 public class RegisterPanelEvents implements IBtnEventHandler {
@@ -49,20 +53,18 @@ public class RegisterPanelEvents implements IBtnEventHandler {
 
            //Open separate thread for Database operation
            //TODO: Implement SwingWorker as long as code has not been moved to the API, in order to ensure thread safety.
-           //TODO: change that into API request
            new Thread(() -> {
+               Map<String, String> body = new HashMap<>();
+               body.put("username", username);
+               body.put("password", new String(password));
 
-//               try {
-//                   QueryExecutor.executeStatement("INSERT INTO Users (Username, Password) VALUES (?,?)", username, hashedPassword);
-//               } catch (Exception e) {
-//                   // Handle exceptions appropriately
-//                   e.printStackTrace();
-//
-//                   //TODO: create JOptionPane on SwingUtilities EDT for better UX.
-//               }
+               HttpResponse<String> response = requestExecutor.sendPostRequest("http://localhost:8080/api/registration", body);
+
+               handleRegisterResponse(response);
+
            }).start();
 
-           loginFrame.handleSuccesfullAuthentication(new User());
+         //  loginFrame.handleSuccesfullAuthentication(new User());
        }
        else{
            return;
@@ -77,6 +79,8 @@ public class RegisterPanelEvents implements IBtnEventHandler {
 
         //TODO: Change that into JavaFX property
         submitBtn.setEnabled(validated);
+
+        debounceTimer.stop();
         return validated;
     }
 
@@ -85,6 +89,27 @@ public class RegisterPanelEvents implements IBtnEventHandler {
         debounceTimer.stop();
         debounceTimer.setDelay(time);
         debounceTimer.start();
+    }
+
+    private void handleRegisterResponse(HttpResponse<String> response){
+        if(response==null) return;
+
+        if(response.statusCode()==200){
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null, "Rejestracja przebiegla pomyslnie.");
+            });
+
+        }
+        else if(response.statusCode() == 409){
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null, "Nazwa użytkownika jest zajęta.");
+            });
+        }
+        else if(response.statusCode() == 400){
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null, "Nazwa uzytkownika lub haslo nie spelniaja wymagań");
+            });
+        }
     }
 
 }

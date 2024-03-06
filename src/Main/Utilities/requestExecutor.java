@@ -13,7 +13,6 @@ public class requestExecutor {
 
     public static HttpResponse<String> sendPostRequest(String endpoint, Object body) {
         String json = gson.toJson(body);
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(endpoint))
                 .header("Content-Type", "application/json")
