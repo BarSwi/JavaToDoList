@@ -2,28 +2,26 @@ package Main.Panels.Auth;
 
 import Main.Frames.LoginFrame;
 import Main.Utilities.QueryExecutor;
+import Main.Utilities.requestExecutor;
 
 import javax.swing.*;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 
 //*Class created only to provide implementations for BtnHandlers on AuthPanel*/
 public class LoginPanelEvents implements IBtnEventHandler {
+    private final String API_ENDPOINT = "http://localhost:8080/api/authentication";
 
     private final int MAX_INPUT_LENGTH = 255;
 
     private final LoginFrame loginFrame;
     private final LoginPanel loginPanel;
     private JButton submitBtn;
-    private final String username;
-    private final char[] password;
-
     LoginPanelEvents(LoginFrame loginFrame, LoginPanel loginPanel){
         this.loginFrame = loginFrame;
         this.loginPanel = loginPanel;
-
-        this.submitBtn = loginPanel.getSubmitBtn();
-        this.username = loginPanel.getLoginInput().getText();
-        this.password = loginPanel.getPasswordInput().getPassword();
     }
     @Override
     public void switchView(){
@@ -33,12 +31,28 @@ public class LoginPanelEvents implements IBtnEventHandler {
     @Override
     public void handleSubmit() {
         if(validateInputs()){
+            new Thread(() -> {
+                String username = loginPanel.getLoginInput().getText();
+                char[] password = loginPanel.getPasswordInput().getPassword();
+
+                Map<String, String> body = new HashMap<>();
+                body.put("username", username);
+                body.put("password", new String(password));
+
+                HttpResponse<String> response = requestExecutor.sendPostRequest(API_ENDPOINT, body);
+
+                handleLoginSubmit(response);
+            }).start();
+
             //TODO: Send API request to authenticate the user, and put that into User class
         }
     }
 
     @Override
     public boolean validateInputs() {
+        String username = loginPanel.getLoginInput().getText();
+        char[] password = loginPanel.getPasswordInput().getPassword();
+
         return username.length() <= MAX_INPUT_LENGTH && password.length <= MAX_INPUT_LENGTH;
     }
     @Override
@@ -46,5 +60,23 @@ public class LoginPanelEvents implements IBtnEventHandler {
         return;
     }
 
+    private void handleLoginSubmit(HttpResponse<String> response){
+        if(response==null) return;
+        if(response.statusCode() == 200){
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(loginFrame, "-------------");
+            });
 
+        }
+        else if(response.statusCode() == 401){
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(loginFrame, "Niepoprawne dane logowania.");
+            });
+        }
+        else{
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(loginFrame, "Coś poszło nie tak, prosimy spróbować później.");
+            });
+        }
+    }
 }

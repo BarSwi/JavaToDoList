@@ -59,7 +59,7 @@ public class LoginPanel extends AbstractAuthPanel {
         return super.createPanel(new GridLayout(2, 1), loginInput, passwordInput);
     }
     private JPanel createBtnPanel(){
-        submitBtn = new JButton("Zaloguj się");
+        submitBtn = createBtn("Zaloguj sie", e -> eventHandler.handleSubmit());
         switchFormBtn = createBtn("Zarejestruj się", e -> eventHandler.switchView());
         continueAsGuestBtn = new JButton("Kontynuuj jako gość");
 

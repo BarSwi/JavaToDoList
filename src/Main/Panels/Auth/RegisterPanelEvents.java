@@ -13,6 +13,7 @@ import java.util.Map;
 //*Class created only to provide implementations for BtnHandlers on AuthPanel*/
 public class RegisterPanelEvents implements IBtnEventHandler {
 
+    private final String API_ENDPOINT = "http://localhost:8080/api/registration";
     private final LoginFrame loginFrame;
     private final RegisterPanel registerPanel;
 
@@ -58,7 +59,7 @@ public class RegisterPanelEvents implements IBtnEventHandler {
                body.put("username", username);
                body.put("password", new String(password));
 
-               HttpResponse<String> response = requestExecutor.sendPostRequest("http://localhost:8080/api/registration", body);
+               HttpResponse<String> response = requestExecutor.sendPostRequest(API_ENDPOINT, body);
 
                handleRegisterResponse(response);
 
@@ -94,20 +95,20 @@ public class RegisterPanelEvents implements IBtnEventHandler {
     private void handleRegisterResponse(HttpResponse<String> response){
         if(response==null) return;
 
-        if(response.statusCode()==200){
+        if(response.statusCode() == 200){
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(null, "Rejestracja przebiegla pomyslnie.");
+                JOptionPane.showMessageDialog(loginFrame, "Rejestracja przebiegla pomyslnie.");
             });
 
         }
         else if(response.statusCode() == 409){
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(null, "Nazwa użytkownika jest zajęta.");
+                JOptionPane.showMessageDialog(loginFrame, "Nazwa użytkownika jest zajęta.");
             });
         }
         else if(response.statusCode() == 400){
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(null, "Nazwa uzytkownika lub haslo nie spelniaja wymagań");
+                JOptionPane.showMessageDialog(loginFrame, "Nazwa uzytkownika lub haslo nie spelniaja wymagań");
             });
         }
     }
