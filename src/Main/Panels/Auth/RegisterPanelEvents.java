@@ -2,7 +2,6 @@ package Main.Panels.Auth;
 
 import Main.Database.User;
 import Main.Frames.LoginFrame;
-import Main.Utilities.PasswordHashing;
 import Main.Utilities.QueryExecutor;
 
 import javax.swing.*;
@@ -46,20 +45,21 @@ public class RegisterPanelEvents implements IBtnEventHandler {
            char[] password = registerPanel.getPasswordInput().getPassword();
 
            //Hash Password in order to insert that to the database, hashing method accepts String.
-           String hashedPassword = PasswordHashing.hashPassword(new String(password));
+//           String hashedPassword = PasswordHashing.hashPassword(new String(password));
 
            //Open separate thread for Database operation
            //TODO: Implement SwingWorker as long as code has not been moved to the API, in order to ensure thread safety.
            //TODO: change that into API request
            new Thread(() -> {
-               try {
-                   QueryExecutor.executeStatement("INSERT INTO Users (Username, Password) VALUES (?,?)", username, hashedPassword);
-               } catch (Exception e) {
-                   // Handle exceptions appropriately
-                   e.printStackTrace();
 
-                   //TODO: create JOptionPane on SwingUtilities EDT for better UX.
-               }
+//               try {
+//                   QueryExecutor.executeStatement("INSERT INTO Users (Username, Password) VALUES (?,?)", username, hashedPassword);
+//               } catch (Exception e) {
+//                   // Handle exceptions appropriately
+//                   e.printStackTrace();
+//
+//                   //TODO: create JOptionPane on SwingUtilities EDT for better UX.
+//               }
            }).start();
 
            loginFrame.handleSuccesfullAuthentication(new User());
