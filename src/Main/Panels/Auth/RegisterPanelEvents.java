@@ -95,22 +95,25 @@ public class RegisterPanelEvents implements IBtnEventHandler {
     private void handleRegisterResponse(HttpResponse<String> response){
         if(response==null) return;
 
-        if(response.statusCode() == 200){
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(loginFrame, "Rejestracja przebiegla pomyslnie.");
-            });
+        String message;
 
+        switch (response.statusCode()){
+            case 200:
+                message = "Rejestracja przebiegła pomyślnie";
+                break;
+            case 409:
+                message = "Nazwa użytkownika jest zajęta.";
+                break;
+            case 400:
+                message = "Nazwa uzytkownika lub haslo nie spelniaja wymagań";
+                break;
+            default:
+                message = "Coś poszło nie tak, prosimy spróbować później";
+                break;
         }
-        else if(response.statusCode() == 409){
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(loginFrame, "Nazwa użytkownika jest zajęta.");
-            });
-        }
-        else if(response.statusCode() == 400){
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(loginFrame, "Nazwa uzytkownika lub haslo nie spelniaja wymagań");
-            });
-        }
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(loginFrame, message);
+        });
     }
 
 }

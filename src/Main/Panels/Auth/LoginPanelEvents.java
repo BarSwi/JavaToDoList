@@ -1,7 +1,6 @@
 package Main.Panels.Auth;
 
 import Main.Frames.LoginFrame;
-import Main.Utilities.QueryExecutor;
 import Main.Utilities.requestExecutor;
 
 import javax.swing.*;
@@ -61,22 +60,24 @@ public class LoginPanelEvents implements IBtnEventHandler {
     }
 
     private void handleLoginSubmit(HttpResponse<String> response){
-        if(response==null) return;
-        if(response.statusCode() == 200){
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(loginFrame, "-------------");
-            });
+        if (response == null) return;
 
+        String message;
+
+        switch (response.statusCode()) {
+            case 200:
+                message = "Sukces: Użytkownik zalogowany pomyślnie.";
+                break;
+            case 401:
+                message = "Błąd: Niepoprawne dane logowania.";
+                break;
+            default:
+                message = "Błąd: Coś poszło nie tak, prosimy spróbować później.";
+                break;
         }
-        else if(response.statusCode() == 401){
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(loginFrame, "Niepoprawne dane logowania.");
-            });
-        }
-        else{
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(loginFrame, "Coś poszło nie tak, prosimy spróbować później.");
-            });
-        }
+
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(loginFrame, message);
+        });
     }
 }
