@@ -66,13 +66,13 @@ public class LoginPanelEvents implements IBtnEventHandler {
 
         switch (response.statusCode()) {
             case 200:
-                message = "Sukces: Użytkownik zalogowany pomyślnie.";
+                message = "Użytkownik zalogowany pomyślnie.";
                 break;
             case 401:
-                message = "Błąd: Niepoprawne dane logowania.";
+                message = "Niepoprawne dane logowania.";
                 break;
             default:
-                message = "Błąd: Coś poszło nie tak, prosimy spróbować później.";
+                message = "Coś poszło nie tak, prosimy spróbować później.";
                 break;
         }
 
