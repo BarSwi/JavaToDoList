@@ -8,7 +8,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ComponentUtils {
-    //Method to create JTextField with specified size
+    /**
+     * Method to create JTextField with placeholder text property and dimension.
+     * JTextField is customized by customizeInputField method.
+     * @param placeholder - Text property that should be displayed as placeholder
+     * @param dimension - Width and height of input.
+     * @return Returns ready to use JTextField with placeholder and customized
+     */
     public static JTextField createTextField(String placeholder, Dimension dimension) {
         //InputWithPlaceholder is external class that provides the Factory Methods in order to create
         //inputs with placeholders.
@@ -17,7 +23,13 @@ public class ComponentUtils {
         return inputField;
     }
 
-    //Method to create JPasswordField with specified size
+    /**
+     * Method to create JPasswordField with placeholder text property and dimension.
+     * JPasswordField is customized by customizeInputField method.
+     * @param placeholder - Text property that should be displayed as placeholder
+     * @param dimension - Width and height of input.
+     * @return Returns ready to use JPasswordField with placeholder and customized
+     */
     public static JPasswordField createPasswordField(String placeholder, Dimension dimension) {
 
         //InputWithPlaceholder is external class that provides the Factory Methods in order to create
@@ -27,14 +39,24 @@ public class ComponentUtils {
         return passwordField;
     }
 
-    //Method to customize the specific input, currently only the dimension and center text align
+    /**
+     * Customizes provided input, sets the text alignment to center and prefferedSize to provided dimension.
+     * @param field - Input that should be customized.
+     * @param dimension - Width and height of input.
+     */
     public static void customizeInputField(JTextField field, Dimension dimension) {
         field.setPreferredSize(dimension);
         field.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
-    //Method to create panel with JComponents, the argument is array of JComponents
-    public static JPanel createPanel(LayoutManager layoutManager,JComponent... components) {
+    /**
+     * Method that creates panel with specified layoutManager and components.
+     * @param layoutManager - Layout Manager that will be set on the panel.
+     * @param components - Array of components that should be inserted into panel.
+     * @return Returns ready to be used panel with components.
+     * @throws IllegalArgumentException If second argument is empty error is being thrown.
+     */
+    public static JPanel createPanel(LayoutManager layoutManager,JComponent... components) throws IllegalArgumentException{
         if (components.length == 0) {
             throw new IllegalArgumentException("At least one component must be provided");
         }

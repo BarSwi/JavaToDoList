@@ -11,6 +11,12 @@ public class requestExecutor {
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static final Gson gson = new Gson();
 
+    /**
+     * Sends POST reuqest to the backend API
+     * @param endpoint - Endpoint to which the request should be sent
+     * @param body - Body of the request that is converted into json inside method.
+     * @return Returns response from backend API.
+     */
     public static HttpResponse<String> sendPostRequest(String endpoint, Object body) {
         String json = gson.toJson(body);
         HttpRequest request = HttpRequest.newBuilder()
