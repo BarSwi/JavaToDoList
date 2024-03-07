@@ -18,15 +18,29 @@ public class LoginPanelEvents implements IBtnEventHandler {
     private final LoginFrame loginFrame;
     private final LoginPanel loginPanel;
     private JButton submitBtn;
-    LoginPanelEvents(LoginFrame loginFrame, LoginPanel loginPanel){
+
+    /**
+     * Constructor to create eventHandler.
+     * @param loginFrame - Main LoginFrame instance
+     * @param loginPanel - loginPanel instance on which the events should be executed.
+     */
+    public LoginPanelEvents(LoginFrame loginFrame, LoginPanel loginPanel){
         this.loginFrame = loginFrame;
         this.loginPanel = loginPanel;
     }
+
+    /**
+     * Switches the loginFrame view into registerView.
+     */
     @Override
     public void switchView(){
         loginFrame.switchToRegisterView();
     }
 
+    /**
+     * Handles the logic of validating and sending API request in order to authenticate values provided by user.
+     * Values are being acquired by loginPanel instance getters.
+     */
     @Override
     public void handleSubmit() {
         if(validateInputs()){
@@ -47,6 +61,10 @@ public class LoginPanelEvents implements IBtnEventHandler {
         }
     }
 
+    /**
+     * Simple validation logic for inputs of loginPanel provided to constructor.
+     * @return Returns true if inputs are valid and false if they are not.
+     */
     @Override
     public boolean validateInputs() {
         String username = loginPanel.getLoginInput().getText();
@@ -54,11 +72,20 @@ public class LoginPanelEvents implements IBtnEventHandler {
 
         return username.length() <= MAX_INPUT_LENGTH && password.length <= MAX_INPUT_LENGTH;
     }
+
+    /**
+     * Necessary method from IBtnEventHandler
+     * @param time - Time in milliseconds after which debounced function should be called.
+     */
     @Override
     public void debounceValidateInputs(int time){
         return;
     }
 
+    /**
+     * Handles the response that comes from backend API.
+     * @param response - Response that we get after calling API Endpoint for user authentication
+     */
     private void handleLoginSubmit(HttpResponse<String> response){
         if (response == null) return;
 

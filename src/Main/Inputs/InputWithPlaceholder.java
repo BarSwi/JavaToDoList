@@ -18,6 +18,11 @@ public class InputWithPlaceholder<T extends JTextComponent>{
     private final T inputComponent;
     private final String placeholder;
 
+    /**
+     *  Creates placeholder for input. Placeholder is the text property that disappears when user focuses input, or if user provided any value.
+     * @param placeholder - Text property that should be displayed on input
+     * @param inputComponent - InputComponent to which placeholder should be applied.
+     */
     private InputWithPlaceholder(final String placeholder, T inputComponent){
 
         //Check for the null exception
@@ -48,14 +53,19 @@ public class InputWithPlaceholder<T extends JTextComponent>{
     }
 
 
-    //If instance of input is type of Password, encode or decode method.
+    /**
+     * Sets echoChar if the input is type of JPasswordField
+     * @param echoChar - EchoChar set
+     */
     private void setPasswordMask(char echoChar) {
         if (inputComponent instanceof JPasswordField) {
             ((JPasswordField) inputComponent).setEchoChar(echoChar);
         }
     }
 
-    //Add key listener in order to check if User provided changes to input
+    /**
+     * Adds new keyListener to inputComponent
+     */
     private void addKeyListenerToInput() {
         inputComponent.addKeyListener(new KeyAdapter() {
             @Override
@@ -65,8 +75,10 @@ public class InputWithPlaceholder<T extends JTextComponent>{
         });
     }
 
-    //Check if input is focused or not, then perform methods based on input type and input value.
-    //If user provided any changes before focus nothing happens
+    /**
+     * Checks if input is focused or not, if focus is gained and user have not provided any value text property disappears.
+     * If input loses focus and user have not provided any value, placeholders text property appears back.
+     */
     private void addFocusListenerToInput() {
         inputComponent.addFocusListener(new FocusListener() {
             @Override
@@ -88,18 +100,29 @@ public class InputWithPlaceholder<T extends JTextComponent>{
         });
     }
 
-    // Factory method for creating a PlaceholderInput specified as JTextField
+    /**
+     *  Factory method that returns JTextField with placeholder.
+     * @param placeholder - Text property that will be applied to input.
+     * @return JTextField with placeholder
+     */
     public static JTextField createTextFieldInput(String placeholder) {
         return new InputWithPlaceholder<>(placeholder, new JTextField()).getInputComponent();
     }
 
-    // Factory method for creating a PlaceholderInput specified as JPasswordField
+    /**
+     *  Factory method that returns JPasswordField with placeholder.
+     * @param placeholder - Text property that will be applied to input.
+     * @return JPasswordField with placeholder
+     */
     public static JPasswordField createPasswordFieldInput(String placeholder) {
         return new InputWithPlaceholder<>(placeholder, new JPasswordField()).getInputComponent();
     }
 
 
-    //Getter for the created and customized component
+    /**
+     *  Getter that returns created input
+     * @return generic inputComponent.
+     */
     private T getInputComponent() {
         return inputComponent;
     }

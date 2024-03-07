@@ -4,8 +4,6 @@ import Main.Frames.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class LoginPanel extends AbstractAuthPanel {
 
@@ -42,6 +40,9 @@ public class LoginPanel extends AbstractAuthPanel {
 
     }
 
+    /**
+     * Creates whole Panel with GridLayout and button + input panels.
+     */
     private void createPanel(){
         // UI creation logic
         this.setLayout(new GridLayout(GRID_LAYOUT_ROWS, GRID_LAYOUT_COLS));
@@ -49,6 +50,10 @@ public class LoginPanel extends AbstractAuthPanel {
         this.add(createBtnPanel());
     }
 
+    /**
+     * Creates panel with inputs that should be implemented into LoginPanel view.
+     * @return - Instance of panel, created with AbstractAuthPanel createPanel method.
+     */
     private JPanel createInputPanel(){
         loginInput = createTextField("Login");
         passwordInput = createPasswordField("Hasło");
@@ -58,6 +63,11 @@ public class LoginPanel extends AbstractAuthPanel {
 
         return super.createPanel(new GridLayout(2, 1), loginInput, passwordInput);
     }
+
+    /**
+     * Creates panel with buttons that should be implemented into LoginPanel view.
+     * @return - Instance of panel, created with AbstractAuthPanel createPanel method.
+     */
     private JPanel createBtnPanel(){
         submitBtn = createBtn("Zaloguj sie", e -> eventHandler.handleSubmit());
         switchFormBtn = createBtn("Zarejestruj się", e -> eventHandler.switchView());

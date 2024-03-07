@@ -45,13 +45,24 @@ public class LoginFrame extends AbstractFrame {
 
 }
 
+    /**
+     * Switches to the LoginView, therefore to LoginPanel
+     */
     public  void switchToLoginView(){
         cl.show(containerPanel, loginView);
     }
+    /**
+     * Switches to the RegisterView, therefore to RegisterPanel
+     */
     public  void switchToRegisterView(){
         cl.show(containerPanel, registerView);
     }
 
+    /**
+     * Method that should be called when authentication is successful
+     * Closes the LoginFrame and opens Main Application
+     * @param user - Instance of user that should be passed to Main Application.
+     */
     public void handleSuccesfullAuthentication(User user){
         this.dispose();
     }

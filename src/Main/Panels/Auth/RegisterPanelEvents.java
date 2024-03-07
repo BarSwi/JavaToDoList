@@ -22,7 +22,14 @@ public class RegisterPanelEvents implements IBtnEventHandler {
     private final InputsValidator inputsValidator;
 
 
-    RegisterPanelEvents(LoginFrame loginFrame, RegisterPanel registerPanel){
+    /**
+     * Constructor to create eventHandler.
+     * It creates instance of InputsValidator.
+     * Sets debounceTimer to run validateInputs method after 250 milliseconds by default.
+     * @param loginFrame - Main LoginFrame instance
+     * @param registerPanel - registerPanel instance on which the events should be executed.
+     */
+    public RegisterPanelEvents(LoginFrame loginFrame, RegisterPanel registerPanel){
         this.loginFrame = loginFrame;
         this.registerPanel = registerPanel;
         this.submitBtn = registerPanel.getSubmitBtn();
@@ -38,11 +45,18 @@ public class RegisterPanelEvents implements IBtnEventHandler {
         debounceTimer = new Timer(250, e->validateInputs());
 
     }
+    /**
+     * Switches the loginFrame view into loginView.
+     */
     @Override
     public void switchView(){
         loginFrame.switchToLoginView();
     }
 
+    /**
+     * Handles the logic of validating and sending API request in order to authenticate values provided by user.
+     * Values are being acquired by registerPanel instance getters.
+     */
     @Override
     public void handleSubmit() {
        if(validateInputs()){
@@ -72,6 +86,10 @@ public class RegisterPanelEvents implements IBtnEventHandler {
        }
     }
 
+    /**
+     * Method that runs inputsValidator.validate() method and stops debounceTimer after it finishes.
+     * @return Boolean value if inputs were properly validated or not.
+     */
     @Override
     public boolean validateInputs(){
         //If everything is okay, enable the register button option.
@@ -85,6 +103,10 @@ public class RegisterPanelEvents implements IBtnEventHandler {
         return validated;
     }
 
+    /**
+     * resets debounceTimer which runs validateInputs method.
+     * @param time Time in milliseconds of debounce delay.
+     */
     @Override
     public void debounceValidateInputs(int time) {
         debounceTimer.stop();
@@ -92,6 +114,10 @@ public class RegisterPanelEvents implements IBtnEventHandler {
         debounceTimer.start();
     }
 
+    /**
+     * Handles the response that comes from backend API.
+     * @param response - Response that we get after calling API Endpoint for user registration
+     */
     private void handleRegisterResponse(HttpResponse<String> response){
         if(response==null) return;
 

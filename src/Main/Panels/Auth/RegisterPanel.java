@@ -48,6 +48,9 @@ public class RegisterPanel extends AbstractAuthPanel {
         //this.loginFrame=loginFrame;
     }
 
+    /**
+     * Creates whole Panel with GridLayout and button + input panels.
+     */
     private void createPanel(){
 
         //UI creation logic
@@ -59,7 +62,10 @@ public class RegisterPanel extends AbstractAuthPanel {
 
 
     }
-
+    /**
+     * Creates panel with inputs that should be implemented into RegisterPanel view.
+     * @return - Instance of panel, created with AbstractAuthPanel createPanel method.
+     */
     private JPanel createBtnPanel(){
         //Create Panel with inputs from AbstractAuthPanel function
         submitBtn = createBtn("Stwórz konto", e -> eventHandler.handleSubmit());
@@ -76,6 +82,11 @@ public class RegisterPanel extends AbstractAuthPanel {
 
         return super.createPanel(new FlowLayout(FlowLayout.CENTER,5,5), submitBtn, switchFormBtn, continueAsGuestBtn);
     }
+
+    /**
+     * Creates panel with buttons that should be implemented into RegisterPanel view.
+     * @return - Instance of panel, created with AbstractAuthPanel createPanel method.
+     */
     private JPanel createInputPanel(){
         //Set up inputs
         loginInput = createTextField("Login");
