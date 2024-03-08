@@ -26,6 +26,7 @@ public class InputsValidator{
     private final char[] repeatPasswordPlaceholder;
 
 
+
     /**
      * Constructor creates the InputValidator instance, arguments are usernameInput, passwordInput and repeatPasswordInput. Order is important,
      * but it is allowed to provide null values if there is need to validate only some inputs not all of them.
@@ -45,7 +46,6 @@ public class InputsValidator{
         passwordPlaceholder = (passwordInput == null) ? new char[0] : passwordInput.getPassword();
         repeatPasswordPlaceholder = (repeatPasswordInput == null) ? new char[0] : repeatPasswordInput.getPassword();
     }
-
     /**
      * Method that validates the Password field based on basic password validation rules.
      * If field is invalid it changes the appearance of UI.
@@ -54,6 +54,8 @@ public class InputsValidator{
      * @return Returns the boolean value whenever password is valid or not.
      */
     public boolean validatePassword(JPasswordField passwordInput){
+
+        if(passwordInput==null) return false;
 
         char[] passwordValue = passwordInput.getPassword();
 
@@ -81,6 +83,8 @@ public class InputsValidator{
      * @return Returns the boolean value whenever both passwords are the same.
      */
     public boolean validateRepeatPassword(JPasswordField passwordInput, JPasswordField repeatPasswordInput){
+
+        if(repeatPasswordInput == null || passwordInput == null) return false;
 
         char[] passwordFirst = passwordInput.getPassword();
         char[] passwordSecond = repeatPasswordInput.getPassword();
@@ -112,6 +116,9 @@ public class InputsValidator{
      * @return Returns the boolean value whenever username value is valid or not.
      */
     public boolean validateUsername(JTextField usernameInput){
+
+        if(usernameInput==null) return false;
+
         String username = usernameInput.getText();
 
         //If value provided is equal to placeholder return immediately false
@@ -139,7 +146,7 @@ public class InputsValidator{
     /**
      * Validates all the inputs provided to the class constructor. If one of inputs provided is null it skips the validation for that input.
      * Either way we can use separately all the methods from InputsValidator, or simply this which executes all of them accordingly.
-     * @return - Returns the boolean value if all the conditions are valid.
+     * @return - Returns the boolean value if all the conditions are set to true.
      */
     public boolean validate(){
         List<Boolean> conditions = new ArrayList<>();

@@ -12,6 +12,8 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /** AbstractClass which containes mutual variables for LoginPanel and RegisterPanel for the LoginFrame class component.
  * It uses the ComponentUtils class which creates most basic components without specific modifiers.
@@ -122,6 +124,7 @@ public abstract class AbstractAuthPanel extends JPanel {
         }
 
     }
+
 
     //Getters created, so it would be easier to validate inputs in separate class
     public JPasswordField getPasswordInput(){

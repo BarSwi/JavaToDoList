@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 //*Class created only to provide implementations for BtnHandlers on AuthPanel*/
-public class LoginPanelEvents implements IBtnEventHandler {
+public class LoginPanelEvents extends AbstractAuthPanelEvents implements IBtnEventHandler {
     private final String API_ENDPOINT = "http://localhost:8080/api/authentication";
 
     private final int MAX_INPUT_LENGTH = 255;
@@ -45,13 +45,7 @@ public class LoginPanelEvents implements IBtnEventHandler {
     public void handleSubmit() {
         if(validateInputs()){
             new Thread(() -> {
-                String username = loginPanel.getLoginInput().getText();
-                char[] password = loginPanel.getPasswordInput().getPassword();
-
-                Map<String, String> body = new HashMap<>();
-                body.put("username", username);
-                body.put("password", new String(password));
-
+                Map<String, String> body = createAuthRequestBody(loginPanel);
                 HttpResponse<String> response = requestExecutor.sendPostRequest(API_ENDPOINT, body);
 
                 handleLoginSubmit(response);

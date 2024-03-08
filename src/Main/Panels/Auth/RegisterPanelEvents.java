@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //*Class created only to provide implementations for BtnHandlers on AuthPanel*/
-public class RegisterPanelEvents implements IBtnEventHandler {
+public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtnEventHandler {
 
     private final String API_ENDPOINT = "http://localhost:8080/api/registration";
     private final LoginFrame loginFrame;
@@ -60,29 +60,22 @@ public class RegisterPanelEvents implements IBtnEventHandler {
     @Override
     public void handleSubmit() {
        if(validateInputs()){
-           String username = registerPanel.getLoginInput().getText();
-           char[] password = registerPanel.getPasswordInput().getPassword();
 
-           //Hash Password in order to insert that to the database, hashing method accepts String.
-//           String hashedPassword = PasswordHashing.hashPassword(new String(password));
+           Map<String, String> body = createAuthRequestBody(registerPanel);
 
-           //Open separate thread for Database operation
+           //Open separate thread for API request
            //TODO: Implement SwingWorker as long as code has not been moved to the API, in order to ensure thread safety.
            new Thread(() -> {
-               Map<String, String> body = new HashMap<>();
-               body.put("username", username);
-               body.put("password", new String(password));
-
                HttpResponse<String> response = requestExecutor.sendPostRequest(API_ENDPOINT, body);
-
                handleRegisterResponse(response);
-
            }).start();
 
          //  loginFrame.handleSuccesfullAuthentication(new User());
        }
        else{
-           return;
+           SwingUtilities.invokeLater(() -> {
+               JOptionPane.showMessageDialog(loginFrame, "Nazwa użytkownika lub hasło są nieprawidłowe.");
+           });
        }
     }
 

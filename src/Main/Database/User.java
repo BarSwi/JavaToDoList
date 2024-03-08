@@ -41,5 +41,6 @@ public class User {
     public void setUsername(String username){
         UserHolder.user.username = username;
     }
+    public String getUsername() {return UserHolder.user.username;}
 
 }

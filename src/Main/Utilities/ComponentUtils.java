@@ -57,7 +57,7 @@ public class ComponentUtils {
      * @throws IllegalArgumentException If second argument is empty error is being thrown.
      */
     public static JPanel createPanel(LayoutManager layoutManager,JComponent... components) throws IllegalArgumentException{
-        if (components.length == 0) {
+        if (components == null || components.length == 0) {
             throw new IllegalArgumentException("At least one component must be provided");
         }
 
