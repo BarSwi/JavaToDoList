@@ -44,13 +44,22 @@ public abstract class AbstractAuthPanelEvents {
             JOptionPane.showMessageDialog(loginFrame, message);
     }
 
+
+    /**
+     * Toggles the enabled state of the provided JButton with a delay.
+     * The button is disabled for a specified duration and then re-enabled.
+     *
+     * @param btn The JButton to toggle the enabled state.
+     */
     protected void toggleSubmitBtnEnabled(JButton btn){
-        btn.setEnabled(false);
-        Timer enableBtn = new Timer(2000, e -> {
-            btn.setEnabled(true);
-            ((Timer) e.getSource()).stop();
+        SwingUtilities.invokeLater(()->{
+            btn.setEnabled(false);
+            Timer enableBtn = new Timer(2000, e -> {
+                btn.setEnabled(true);
+                ((Timer) e.getSource()).stop();
+            });
+            enableBtn.start();
         });
-        enableBtn.start();
     }
 
 
