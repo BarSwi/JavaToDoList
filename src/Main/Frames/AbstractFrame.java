@@ -10,6 +10,7 @@ public abstract class AbstractFrame extends JFrame {
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setLocationRelativeTo(null); // Center the frame on the screen
     }
 
 }

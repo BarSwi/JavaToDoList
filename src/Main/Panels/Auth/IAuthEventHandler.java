@@ -1,9 +1,10 @@
 package Main.Panels.Auth;
 
-public interface IBtnEventHandler {
+public interface IAuthEventHandler {
     void switchView();
 
     void handleSubmit();
-    boolean validateInputs();
+   // boolean validateInputs();
     void debounceValidateInputs(int time);
+    void handleEnterKeyInput();
 }

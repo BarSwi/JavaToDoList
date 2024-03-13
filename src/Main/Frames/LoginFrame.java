@@ -3,6 +3,9 @@ package Main.Frames;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import Main.Database.User;
 import Main.Frames.AbstractFrame;
@@ -21,6 +24,7 @@ public class LoginFrame extends AbstractFrame {
 
    // public LoginFrame(){}
     public LoginFrame(String title){
+
     super(title);
     cl = new CardLayout();
 
@@ -38,7 +42,7 @@ public class LoginFrame extends AbstractFrame {
     this.add(containerPanel);
    //this.setResizable(false);
     this.setMinimumSize(new Dimension(250,250));
-    this.setLocationRelativeTo(null); // Center the frame on the screen
+
 
     this.pack();
 
@@ -64,6 +68,7 @@ public class LoginFrame extends AbstractFrame {
      */
     public void handleSuccessfulAuthentication(){
         this.dispose();
+        new ToDoMainFrame("To do view");
     }
 
 

@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public abstract class AbstractAuthPanelEvents {
 
     /**
@@ -40,8 +41,9 @@ public abstract class AbstractAuthPanelEvents {
             loginFrame.handleSuccessfulAuthentication();
         }
 
-        SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(loginFrame, message);
-        });
     }
+
+
+
 }

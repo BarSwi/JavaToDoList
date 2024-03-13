@@ -5,19 +5,18 @@ import Main.Utilities.requestExecutor;
 
 import javax.swing.*;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.Map;
 
 
 //*Class created only to provide implementations for BtnHandlers on AuthPanel*/
-public class LoginPanelEvents extends AbstractAuthPanelEvents implements IBtnEventHandler {
+public class LoginPanelEvents extends AbstractAuthPanelEvents implements IAuthEventHandler {
     private final String API_ENDPOINT = "http://localhost:8080/api/authentication";
 
     private final int MAX_INPUT_LENGTH = 255;
 
     private final LoginFrame loginFrame;
     private final LoginPanel loginPanel;
-    private JButton submitBtn;
+   // private JButton submitBtn;
 
     /**
      * Constructor to create eventHandler.
@@ -56,10 +55,18 @@ public class LoginPanelEvents extends AbstractAuthPanelEvents implements IBtnEve
     }
 
     /**
+     * Method created, so it would be easier to separate logic for both loginPanel and registerPanel
+     */
+    @Override
+    public void handleEnterKeyInput(){
+        if(validateInputs()) handleSubmit();
+    }
+
+    /**
      * Simple validation logic for inputs of loginPanel provided to constructor.
      * @return Returns true if inputs are valid and false if they are not.
      */
-    @Override
+
     public boolean validateInputs() {
         String username = loginPanel.getLoginInput().getText();
         char[] password = loginPanel.getPasswordInput().getPassword();
@@ -72,9 +79,7 @@ public class LoginPanelEvents extends AbstractAuthPanelEvents implements IBtnEve
      * @param time - Time in milliseconds after which debounced function should be called.
      */
     @Override
-    public void debounceValidateInputs(int time){
-        return;
-    }
+    public void debounceValidateInputs(int time){}
 
     /**
      * Handles the response that comes from backend API.
@@ -97,8 +102,6 @@ public class LoginPanelEvents extends AbstractAuthPanelEvents implements IBtnEve
                 break;
         }
 
-        SwingUtilities.invokeLater(() -> {
-           super.handleSuccessfulAuthenticationResponse(loginFrame, message, response);
-        });
+        SwingUtilities.invokeLater(() -> super.handleSuccessfulAuthenticationResponse(loginFrame, message, response));
     }
 }

@@ -78,6 +78,7 @@ public class ComponentUtils {
     public static JButton createBtn(String text, ActionListener action){
         JButton btn = new JButton(text);
         btn.addActionListener(action);
+
         return btn;
     }
 }

@@ -4,11 +4,7 @@ import Main.Frames.LoginFrame;
 
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RegisterPanel extends AbstractAuthPanel {
 
@@ -43,7 +39,7 @@ public class RegisterPanel extends AbstractAuthPanel {
     }
 
     //Constructor for hypothetical case when someone wanted to use different event handler
-    public RegisterPanel(IBtnEventHandler eventHandler){
+    public RegisterPanel(IAuthEventHandler eventHandler){
         this.eventHandler = eventHandler;
         //this.loginFrame=loginFrame;
     }
@@ -59,6 +55,9 @@ public class RegisterPanel extends AbstractAuthPanel {
         //Add created Panels to main AuthPanel
         this.add(createInputPanel());
         this.add(createBtnPanel());
+
+        //Add Enter keyListener to handle submit
+        super.addEnterKeyListener(() -> eventHandler.handleEnterKeyInput());
 
 
     }

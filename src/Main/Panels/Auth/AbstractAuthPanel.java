@@ -10,10 +10,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.event.*;
 
 /** AbstractClass which containes mutual variables for LoginPanel and RegisterPanel for the LoginFrame class component.
  * It uses the ComponentUtils class which creates most basic components without specific modifiers.
@@ -32,10 +29,13 @@ public abstract class AbstractAuthPanel extends JPanel {
     protected JButton switchFormBtn;
     protected JButton continueAsGuestBtn;
 
-    protected IBtnEventHandler eventHandler;
+    protected IAuthEventHandler eventHandler;
 
     protected AbstractAuthPanel(){
+
         inputDimension = new Dimension(250, 40);
+
+
     }
     //Custom input size constructor
     protected AbstractAuthPanel(Dimension dimension){
@@ -124,6 +124,23 @@ public abstract class AbstractAuthPanel extends JPanel {
         }
 
     }
+
+    protected void addEnterKeyListener(Runnable method) {
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+        inputMap.put(keyStroke, "enterKeyAction");
+
+        actionMap.put("enterKeyAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                method.run();
+            }
+        });
+    }
+
+
 
 
     //Getters created, so it would be easier to validate inputs in separate class

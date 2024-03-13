@@ -33,10 +33,12 @@ public class LoginPanel extends AbstractAuthPanel {
     }
 
     //Constructor for hypothetical case when someone wanted to use different event handler
-    public LoginPanel(IBtnEventHandler eventHandler){
+    public LoginPanel(IAuthEventHandler eventHandler){
+
         createPanel();
        // this.loginFrame=loginFrame;
         this.eventHandler = eventHandler;
+
 
     }
 
@@ -48,6 +50,9 @@ public class LoginPanel extends AbstractAuthPanel {
         this.setLayout(new GridLayout(GRID_LAYOUT_ROWS, GRID_LAYOUT_COLS));
         this.add(createInputPanel());
         this.add(createBtnPanel());
+
+        //Add Enter keyListener to handle submit
+        super.addEnterKeyListener(() -> eventHandler.handleEnterKeyInput());
     }
 
     /**

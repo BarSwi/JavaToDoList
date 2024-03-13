@@ -1,24 +1,21 @@
 package Main.Panels.Auth;
 
-import Main.Database.User;
 import Main.Frames.LoginFrame;
 import Main.Utilities.requestExecutor;
 
 import javax.swing.*;
 import java.net.http.HttpResponse;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 //*Class created only to provide implementations for BtnHandlers on AuthPanel*/
-public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtnEventHandler {
+public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IAuthEventHandler {
 
     private final String API_ENDPOINT = "http://localhost:8080/api/registration";
     private final LoginFrame loginFrame;
     private final RegisterPanel registerPanel;
 
-    private JButton submitBtn;
-    private Timer debounceTimer;
+    private final JButton submitBtn;
+    private final Timer debounceTimer;
     private final InputsValidator inputsValidator;
 
 
@@ -59,7 +56,7 @@ public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtn
      */
     @Override
     public void handleSubmit() {
-       if(validateInputs()){
+       if(inputsValidator.validate()){
 
            Map<String, String> body = createAuthRequestBody(registerPanel);
 
@@ -70,21 +67,17 @@ public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtn
                handleRegisterResponse(response);
            }).start();
 
-         //  loginFrame.handleSuccesfullAuthentication(new User());
+         //  loginFrame.handleSuccessfulAuthentication(new User());
        }
        else{
-           SwingUtilities.invokeLater(() -> {
-               JOptionPane.showMessageDialog(loginFrame, "Nazwa użytkownika lub hasło są nieprawidłowe.");
-           });
+           SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(loginFrame, "Nazwa użytkownika lub hasło są nieprawidłowe."));
        }
     }
 
     /**
-     * Method that runs inputsValidator.validate() method and stops debounceTimer after it finishes.
-     * @return Boolean value if inputs were properly validated or not.
-     */
-    @Override
-    public boolean validateInputs(){
+     * Method that runs inputsValidator.validate() method and stops debounceTimer after it finishes.     */
+
+    public void validateInputs(){
         //If everything is okay, enable the register button option.
         //TODO: Do the same validation in the API backend later on.
         boolean validated = inputsValidator.validate();
@@ -93,7 +86,7 @@ public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtn
         submitBtn.setEnabled(validated);
 
         debounceTimer.stop();
-        return validated;
+
     }
 
     /**
@@ -105,6 +98,14 @@ public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtn
         debounceTimer.stop();
         debounceTimer.setDelay(time);
         debounceTimer.start();
+    }
+
+    /**
+     * Method created, so it would be easier to separate logic for both loginPanel and registerPanel
+     */
+   @Override
+    public void handleEnterKeyInput(){
+        if(inputsValidator.validate()) handleSubmit();
     }
 
     /**
@@ -130,9 +131,9 @@ public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtn
                 message = "Coś poszło nie tak, prosimy spróbować później";
                 break;
         }
-        SwingUtilities.invokeLater(() -> {
-            super.handleSuccessfulAuthenticationResponse(loginFrame, message, response);
-        });
+        SwingUtilities.invokeLater(() -> super.handleSuccessfulAuthenticationResponse(loginFrame, message, response));
     }
+
+
 
 }
