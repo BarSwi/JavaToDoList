@@ -15,12 +15,13 @@ import static org.mockito.Mockito.when;
 
 public class AbstractAuthPanelEventsTest {
 
-    static class TestAuthPanelEvents extends AbstractAuthPanelEvents {
+    private class TestAuthPanelEvents extends AbstractAuthPanelEvents {
         @Override
         public Map<String, String> createAuthRequestBody(AbstractAuthPanel authPanel) throws IllegalArgumentException {
             return super.createAuthRequestBody(authPanel);
         }
     }
+    
     @Test
     public void createAuthRequestBodyTest(){
 
@@ -28,7 +29,7 @@ public class AbstractAuthPanelEventsTest {
         when(authPanelMock.getLoginInput()).thenReturn(new JTextField("TestLogin"));
         when(authPanelMock.getPasswordInput()).thenReturn(new JPasswordField("TestPassword"));
 
-        TestAuthPanelEvents testAuthPanelEvents = new TestAuthPanelEvents() ;
+        TestAuthPanelEvents testAuthPanelEvents = new TestAuthPanelEvents();
 
         Map<String, String> testBody = testAuthPanelEvents.createAuthRequestBody(authPanelMock);
 

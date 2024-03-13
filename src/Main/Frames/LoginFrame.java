@@ -15,8 +15,8 @@ public class LoginFrame extends AbstractFrame {
 
     private  final String loginView = "LoginPanel";
     private  final String registerView = "RegisterPanel";
-     CardLayout cl;
-     JPanel containerPanel;
+    CardLayout cl;
+    JPanel containerPanel;
 
 
    // public LoginFrame(){}
@@ -61,9 +61,8 @@ public class LoginFrame extends AbstractFrame {
     /**
      * Method that should be called when authentication is successful
      * Closes the LoginFrame and opens Main Application
-     * @param user - Instance of user that should be passed to Main Application.
      */
-    public void handleSuccesfullAuthentication(User user){
+    public void handleSuccessfulAuthentication(){
         this.dispose();
     }
 

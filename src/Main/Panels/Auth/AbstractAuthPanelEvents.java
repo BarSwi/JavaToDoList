@@ -1,5 +1,12 @@
 package Main.Panels.Auth;
 
+import Main.Database.User;
+import Main.Frames.LoginFrame;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import javax.swing.*;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,5 +29,19 @@ public abstract class AbstractAuthPanelEvents {
         body.put("username", username);
         body.put("password", new String(password));
         return body;
+    }
+
+    protected void handleSuccessfulAuthenticationResponse(LoginFrame loginFrame, String message, HttpResponse<String> response){
+        if(response.statusCode()==200){
+            User user = User.getInstance();
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class);
+            user.setUsername(jsonObject.get("username").getAsString());
+            loginFrame.handleSuccessfulAuthentication();
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(loginFrame, message);
+        });
     }
 }

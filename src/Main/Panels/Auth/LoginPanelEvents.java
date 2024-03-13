@@ -98,7 +98,7 @@ public class LoginPanelEvents extends AbstractAuthPanelEvents implements IBtnEve
         }
 
         SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(loginFrame, message);
+           super.handleSuccessfulAuthenticationResponse(loginFrame, message, response);
         });
     }
 }

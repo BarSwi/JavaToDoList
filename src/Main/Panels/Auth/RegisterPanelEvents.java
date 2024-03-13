@@ -131,7 +131,7 @@ public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IBtn
                 break;
         }
         SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(loginFrame, message);
+            super.handleSuccessfulAuthenticationResponse(loginFrame, message, response);
         });
     }
 

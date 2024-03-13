@@ -15,38 +15,72 @@ public class InputsValidatorTest {
         inputsValidator = new InputsValidator(new JTextField(), new JPasswordField(), new JPasswordField());
     }
     @Test
-    public void passwordValidationTest(){
-        JPasswordField invalidPassword = new JPasswordField("test");
+    public void validateValidPassword() {
         JPasswordField validPassword = new JPasswordField("test12345");
-
         assertTrue(inputsValidator.validatePassword(validPassword));
-        assertFalse(inputsValidator.validatePassword(invalidPassword));
-        assertFalse(inputsValidator.validatePassword(null));
-
     }
 
     @Test
-    public void usernameValidationTest(){
-        JTextField invalidUsername = new JTextField("");
-        JTextField validUsername = new JTextField("1");
+    public void validateInvalidPassword() {
+        JPasswordField invalidPassword = new JPasswordField("test");
+        assertFalse(inputsValidator.validatePassword(invalidPassword));
+    }
 
+    @Test
+    public void validateNullPassword() {
+        assertFalse(inputsValidator.validatePassword(null));
+    }
+
+    @Test
+    public void validUsernameValidationTest() {
+        JTextField validUsername = new JTextField("1");
         assertTrue(inputsValidator.validateUsername(validUsername));
+    }
+
+    @Test
+    public void invalidUsernameValidationTest() {
+        JTextField invalidUsername = new JTextField("");
         assertFalse(inputsValidator.validateUsername(invalidUsername));
+    }
+
+    @Test
+    public void nullUsernameValidationTest() {
         assertFalse(inputsValidator.validateUsername(null));
     }
 
     @Test
-    public void repeatPasswordValidationTest(){
-        JPasswordField baseInvalidPassword = new JPasswordField("1234");
-        JPasswordField baseValidPassword = new JPasswordField("12345678");
+    public void validateMatchingValidPasswords() {
+        JPasswordField validPassword = new JPasswordField("12345678");
+        assertTrue(inputsValidator.validateRepeatPassword(validPassword, validPassword));
+    }
 
+    @Test
+    public void validateMatchingInvalidPasswords() {
+        JPasswordField invalidPassword = new JPasswordField("1234");
+        assertFalse(inputsValidator.validateRepeatPassword(invalidPassword, invalidPassword));
+    }
 
-        assertTrue(inputsValidator.validateRepeatPassword(baseValidPassword, baseValidPassword));
-        assertFalse(inputsValidator.validateRepeatPassword(baseInvalidPassword, baseInvalidPassword));
-        assertFalse(inputsValidator.validateRepeatPassword(baseValidPassword, baseInvalidPassword));
+    @Test
+    public void validateMismatchedPasswords() {
+        JPasswordField validPassword = new JPasswordField("12345678");
+        JPasswordField invalidPassword = new JPasswordField("1234");
+        assertFalse(inputsValidator.validateRepeatPassword(validPassword, invalidPassword));
+    }
 
-        assertFalse(inputsValidator.validateRepeatPassword(null, baseValidPassword));
-        assertFalse(inputsValidator.validateRepeatPassword( baseValidPassword, null));
+    @Test
+    public void validateNullFirstPassword() {
+        JPasswordField validPassword = new JPasswordField("12345678");
+        assertFalse(inputsValidator.validateRepeatPassword(null, validPassword));
+    }
+
+    @Test
+    public void validateNullSecondPassword() {
+        JPasswordField validPassword = new JPasswordField("12345678");
+        assertFalse(inputsValidator.validateRepeatPassword(validPassword, null));
+    }
+
+    @Test
+    public void validateNullPasswords() {
         assertFalse(inputsValidator.validateRepeatPassword(null, null));
     }
 }
