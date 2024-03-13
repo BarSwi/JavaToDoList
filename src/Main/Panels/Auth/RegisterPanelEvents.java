@@ -4,6 +4,8 @@ import Main.Frames.LoginFrame;
 import Main.Utilities.requestExecutor;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
@@ -56,6 +58,9 @@ public class RegisterPanelEvents extends AbstractAuthPanelEvents implements IAut
      */
     @Override
     public void handleSubmit() {
+        //Disables register button for 2 seconds
+        super.toggleSubmitBtnEnabled(registerPanel.getSubmitBtn());
+
        if(inputsValidator.validate()){
 
            Map<String, String> body = createAuthRequestBody(registerPanel);

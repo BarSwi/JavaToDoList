@@ -44,6 +44,15 @@ public abstract class AbstractAuthPanelEvents {
             JOptionPane.showMessageDialog(loginFrame, message);
     }
 
+    protected void toggleSubmitBtnEnabled(JButton btn){
+        btn.setEnabled(false);
+        Timer enableBtn = new Timer(2000, e -> {
+            btn.setEnabled(true);
+            ((Timer) e.getSource()).stop();
+        });
+        enableBtn.start();
+    }
+
 
 
 }

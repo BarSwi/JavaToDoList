@@ -16,7 +16,7 @@ public class LoginPanelEvents extends AbstractAuthPanelEvents implements IAuthEv
 
     private final LoginFrame loginFrame;
     private final LoginPanel loginPanel;
-   // private JButton submitBtn;
+    private JButton submitBtn;
 
     /**
      * Constructor to create eventHandler.
@@ -42,6 +42,9 @@ public class LoginPanelEvents extends AbstractAuthPanelEvents implements IAuthEv
      */
     @Override
     public void handleSubmit() {
+        //Disables login button for 2 seconds
+        super.toggleSubmitBtnEnabled(loginPanel.getSubmitBtn());
+
         if(validateInputs()){
             new Thread(() -> {
                 Map<String, String> body = createAuthRequestBody(loginPanel);
